@@ -1,2 +1,2 @@
 # ansi_c
-Mis ejemplos de C
+Personal examples of C
