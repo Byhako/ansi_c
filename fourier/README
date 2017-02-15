@@ -1,0 +1,20 @@
+================================
+Ruben E Acosta
+eldragondera1@gmail.com
+Universidad de Antioquia
+================================
+
+Conjunto de plantillas para calcular la transformada discreta de fourier, para un conjunto de datos leidos desde un archivo.
+
+Para tener un mejor rendimiento, el numero de datos de entrada debe ser una potencia de 2.  Si esto no es asi se agregan ceros hasta obtener una cantidad de datos N, donde N sea par y potencia de 2. Al proceso de verificar si esto se cumple y en caso contrario rellenar con ceros lo he llamado "completado".
+
+Versiones:
+
+----------
+fft1D_1.c
+----------
+
+Transformada de fourier 1D para señal con solo parte real y completado.
+
+Los datos de entrada deben estar en un archivo de una sola columna.
+

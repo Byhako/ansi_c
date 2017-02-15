@@ -2,7 +2,6 @@
 #include <stdlib.h>
 #include <math.h>
 
-void vaciar(char temp[]);
 
 ///////////////////////////////////////////////////////////////////
 int main(){
@@ -14,6 +13,7 @@ int main(){
 
 	FILE *datos;
 
+//------------------------------------------------------------------------
 	datos = fopen("funcion.dat","r");
 	if(datos==NULL){
 		printf("El archivo no se abrio.\n");
@@ -43,7 +43,6 @@ int main(){
 	}
 
 	for(int i=0 ; i<cont ; i++){
-		vaciar(temp);  // vacio variable temp
 		aux = 0;
 
 		for(int j=0 ; aux!='\n' ; j++){
@@ -57,23 +56,24 @@ int main(){
 	}
 	
 	fclose(datos);
+//------------------------------------------------------------------------
+
+
+
+
+
+
 
 	for(int i=0 ; i<r*r ; i++){
 		printf("%lf\n",h[i]);
 	}
 
+
+
+
+
 	cfree(h);
 	return 0;
-}
-
-/////////////////////////////////////////////////////////////
-
-void vaciar(char temp[]){
-	int i;
-
-	for(i=0 ; i<10 ; i++){
-		temp[i] = '\0';
-	}
 }
 
 /////////////////////////////////////////////////////////////
