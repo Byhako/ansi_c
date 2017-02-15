@@ -47,7 +47,7 @@ int main(){
 	}
 
 	while(!feof(archivo)){
-		fgets(aux2,100,archivo);  // lee todo el archivo
+		fgets(aux2,100,archivo);  // lee toda la linea
 		printf("%s",aux2);
 	}
 	printf("\n\n");
@@ -79,7 +79,7 @@ int main(){
 	// reservo memoria
 	trab = (trabajador*)malloc(cont*sizeof(trabajador));
 	if(trab==NULL){
-		printf("El archivo no se abrio.\n");
+		printf("No se pudo reservar memoria.\n");
 		exit(1);
 	}
 
