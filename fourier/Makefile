@@ -1,8 +1,8 @@
 CC = gcc
-CFLAGS = -03 -I. -c -I/home/ruben/local/include/
-LFLAGS = -L/home/ruben/local/lib -lfftw3 -lm
+CFLAGS = -I. -c -I/home/ruben/local/include/
+LFLAGS = -L/home/ruben/local/lib -lm -lfftw3
 
-1d:
+sample1:
 	$(CC) $(CFLAGS) $@.c -o $@.o
 	$(CC) $@.o $(LFLAGS) -o $@.x
 

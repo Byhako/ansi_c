@@ -5,7 +5,7 @@
 
 ///////////////////////////////////////////////////////////////////
 int main(){
-	int r,cont=0;
+	int N,r,cont=0;
 	float n;
 	float *h;
 	char temp[10];
@@ -31,11 +31,13 @@ int main(){
 	printf("Numero de lineas: %i\n",cont);
 
 	// Verifico si cont es potencia de 2, si no, busco numero par mas cercano.
-	r = ceil(sqrt(cont));
-	if(r%2 != 0){r++;}
-
+	//r = ceil(sqrt(cont));
+	//if(r%2 != 0){r++;}
+	
+	N = cont;
+	
 	// reservo memoria
-	h = (float*)calloc(r*r,sizeof(float));
+	h = (float*)calloc(N,sizeof(float));
 	//h = (float*)malloc(r*r*sizeof(float));
 	if(h==NULL){
 		printf("No se pudo reservar memoria.\n");
@@ -64,7 +66,7 @@ int main(){
 
 
 
-	for(int i=0 ; i<r*r ; i++){
+	for(int i=0 ; i<N ; i++){
 		printf("%lf\n",h[i]);
 	}
 

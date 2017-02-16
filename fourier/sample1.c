@@ -11,23 +11,26 @@ Universidad de Antioquia
 #include <stdio.h>
 #include <stdlib.h>
 #include <math.h>
-#include <complex.h>
 #include <fftw3.h>
 
+#define real 0
+#define imag 1
 
 ///////////////////////////////////////////////////////////////////
 int main(){
-	int r,N,cont=0;
-	float *h;
+	int z,N,cont=0;
+	float *h=NULL;
 	char temp[10];
 	char aux;
 
-	FILE *datos;
-	FILE *pf;
+	FILE *datos=NULL;
+	FILE *pf=NULL;
 
-	fftw_complex *in;
-	fftw_complex *out;
+	fftw_complex *in=NULL;
+	fftw_complex *out=NULL;
 	fftw_plan fwd_plan, bck_plan;
+
+	z = ceil(sqrt(cont));
 
 // Cargar datos en array
 //------------------------------------------------------------------------
@@ -46,15 +49,11 @@ int main(){
 
 	rewind(datos);  // regresa el cursor al inicio del archivo
 
-	// Verifico si cont es potencia de 2, si no, busco numero par mas cercano.
-	r = ceil(sqrt(cont));
-	if(r%2 != 0){r++;}
-
-	N = r*r;  // numero de datos de entrada.
+	N = cont;   // numero de datos de entrada.
 
 	// reservo memoria
-	h = (float*)calloc(N,sizeof(float));
-	//h = (float*)malloc(N*sizeof(float));
+	//h = (float*)calloc(N,sizeof(float));
+	h = (float*)malloc(N*sizeof(float));
 	if(h==NULL){
 		printf("No se pudo reservar memoria.\n");
 		exit(1);
@@ -82,20 +81,20 @@ int main(){
 	out  = (fftw_complex *) fftw_malloc(N*sizeof(fftw_complex));
 	//******** DO FORWARD FFT ********//
 	fwd_plan = fftw_plan_dft_1d(N, in, out, FFTW_FORWARD, FFTW_ESTIMATE);
-	printf("\nForward FFTW plan :\n");
+	printf("\nForward FFTW plan :");
 
 	// asigno valores a la intrada
 	for(int i=0 ; i<N ; i++){
-		in[i][0] = h[i];
-		in[i][1] = 0.0;
+		in[i][real] = h[i];
+		in[i][imag] = 0.0;
 	}
 
 	fftw_execute(fwd_plan);
-
+	printf("DONE.\n");
 	//-----------------------------------------------------
-	pf = fopen("forwardValues.dat","w");
-	for(i=0; i<N; i++) 
-		fprintf(pf,"%.3e %.3e \n",out[i][0], out[i][1]); 
+	pf = fopen("directa.dat","w");
+	for(int i=0; i<N; i++) 
+		fprintf(pf,"%.3e\n",out[i][real]); 
 	fclose(pf);
 	//-----------------------------------------------------
 
@@ -104,15 +103,15 @@ int main(){
 
 	//******** DO BACKWARD FFT ********//
 
-	bck_plan = fftw_plan_dft_1d(NSAMPLES, out, in, FFTW_BACKWARD, FFTW_ESTIMATE);
-	printf("\nBackward FFTW plan :\n");
+	bck_plan = fftw_plan_dft_1d(N, out, in, FFTW_BACKWARD, FFTW_ESTIMATE);
+	printf("\nBackward FFTW plan :");
 
 	fftw_execute(bck_plan); 
-
+	printf("DONE.\n");
 	//-----------------------------------------------------
-	pf = fopen("inverseValues.dat","w");
-	for(i=0; i<N; i++)
-		fprintf(pf,"%.3e %.3e \n",in[i][0], in[i][1]); 
+	pf = fopen("inversa.dat","w");
+	for(int i=0; i<N; i++)
+		fprintf(pf,"%.3e\n",in[i][real]/N); 
 	fclose(pf);
 	printf("\n");
 	//-----------------------------------------------------
@@ -121,7 +120,7 @@ int main(){
 
 
 
-	cfree(h);
+	free(h);
 	fftw_free(in);
 	fftw_free(out);
 	return 0;
