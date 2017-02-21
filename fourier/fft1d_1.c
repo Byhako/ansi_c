@@ -1,5 +1,4 @@
-/* Transformada de fourier 1D para señal con solo parte real
-	 y completado.
+/* Transformada de fourier 1D para señal con solo parte real.
 
 ================================
 Ruben E Acosta
@@ -16,21 +15,24 @@ Universidad de Antioquia
 #define real 0
 #define imag 1
 
+void frecuencias(float *x, int N, float dt);
+
 ///////////////////////////////////////////////////////////////////
 int main(){
-	int z,N,cont=0;
-	float *h=NULL;
+	int N, i, j, cont = 0;
+	float dt;
+	float *h = NULL;
+	float *f = NULL;
 	char temp[10];
 	char aux;
 
-	FILE *datos=NULL;
-	FILE *pf=NULL;
+	FILE *datos = NULL;
+	FILE *pf = NULL;
 
-	fftw_complex *in=NULL;
-	fftw_complex *out=NULL;
+	fftw_complex *in = NULL;
+	fftw_complex *out = NULL;
 	fftw_plan fwd_plan, bck_plan;
 
-	z = ceil(sqrt(cont));
 
 // Cargar datos en array
 //------------------------------------------------------------------------
@@ -59,10 +61,10 @@ int main(){
 		exit(1);
 	}
 
-	for(int i=0 ; i<cont ; i++){
+	for(i=0 ; i<cont ; i++){
 		aux = 0;
 
-		for(int j=0 ; aux!='\n' ; j++){
+		for(j=0 ; aux!='\n' ; j++){
 			aux = fgetc(datos);
 			if(aux!='\n'){
 				temp[j] = aux; 
@@ -76,6 +78,7 @@ int main(){
 //------------------------------------------------------------------------
 //------------------------------------------------------------------------
 
+	dt = 0.08/N;
 
 	in   = (fftw_complex *) fftw_malloc(N*sizeof(fftw_complex));
 	out  = (fftw_complex *) fftw_malloc(N*sizeof(fftw_complex));
@@ -84,17 +87,21 @@ int main(){
 	printf("\nForward FFTW plan :");
 
 	// asigno valores a la intrada
-	for(int i=0 ; i<N ; i++){
+	for(i=0 ; i<N ; i++){
 		in[i][real] = h[i];
 		in[i][imag] = 0.0;
 	}
 
 	fftw_execute(fwd_plan);
 	printf("DONE.\n");
+
+	f = (float*)malloc(N*sizeof(float));
+	frecuencias(f, N, dt);
+
 	//-----------------------------------------------------
 	pf = fopen("directa.dat","w");
-	for(int i=0; i<N; i++) 
-		fprintf(pf,"%.3e\n",out[i][real]); 
+	for(i=0; i<N; i++) 
+		fprintf(pf,"%0.3lf  %12.3lf\n",f[i],out[i][real]); 
 	fclose(pf);
 	//-----------------------------------------------------
 
@@ -110,8 +117,8 @@ int main(){
 	printf("DONE.\n");
 	//-----------------------------------------------------
 	pf = fopen("inversa.dat","w");
-	for(int i=0; i<N; i++)
-		fprintf(pf,"%.3e\n",in[i][real]/N); 
+	for(i=0; i<N; i++)
+		fprintf(pf,"%lf\n",in[i][real]/N); 
 	fclose(pf);
 	printf("\n");
 	//-----------------------------------------------------
@@ -126,6 +133,27 @@ int main(){
 	return 0;
 }
 
+/////////////////////////////////////////////////////////////
+
+void frecuencias(float *x, int N, float dt){
+	float i, df, fmax, fmin;
+	int con = 0;
+	
+	df = 1/(N*dt);
+	fmax = 1/(2*dt);
+	fmin = df - fmax;
+
+	for(i=0 ; i<fmax+df ; i=i+df){
+		x[con] = i;
+		con++;
+	}
+	
+	for(i=fmin ; i<0 ; i=i+df){
+		x[con] = i;
+		con++;
+	}
+
+}
 /////////////////////////////////////////////////////////////
 
 /*

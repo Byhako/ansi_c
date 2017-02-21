@@ -7,9 +7,11 @@ float funcion(float x);
 
 ///////////////////////////////////////////////////////////////////
 int main(){
+
 	int n = 128;     // numero de puntos
 	float D,e1,e2;   // paso, extremo1, extremo2
 	float ti,t,h;
+	
 	FILE *escribir, *escriba;
 
 	e1 = 0.0;
@@ -18,7 +20,6 @@ int main(){
 
 	escribir = fopen("graficar.dat","w");
 	escriba = fopen("funcion.dat","w");
-
 		if(escribir==NULL){
 		printf("El archivo no se abrio.\n");
 		exit(1);

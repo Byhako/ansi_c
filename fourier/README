@@ -4,17 +4,50 @@ eldragondera1@gmail.com
 Universidad de Antioquia
 ================================
 
-Conjunto de plantillas para calcular la transformada discreta de fourier, para un conjunto de datos leidos desde un archivo.
+Conjunto de plantillas para calcular la transformada discreta de fourier, 
+para un conjunto de datos leidos desde un archivo.
 
-Para tener un mejor rendimiento, el numero de datos de entrada debe ser una potencia de 2.  Si esto no es asi se agregan ceros hasta obtener una cantidad de datos N, donde N sea par y potencia de 2. Al proceso de verificar si esto se cumple y en caso contrario rellenar con ceros lo he llamado "completado".
 
 Versiones:
 
+***********************************************************************
 ----------
-fft1D_1.c
+fft1d_1.c
 ----------
 
-Transformada de fourier 1D para señal con solo parte real y completado.
+Transformada de fourier 1D para señal con solo parte real.
 
 Los datos de entrada deben estar en un archivo de una sola columna.
 
+***********************************************************************
+----------
+fft1d_2.c
+----------
+
+Transformada de fourier 1D para señal con parte real y compleja.
+
+Los datos de entrada deben estar en un archivo de dos columnas, la primera
+es la parte real y la segunda es la parte compleja.
+
+***********************************************************************
+----------
+fft2d_1.c
+----------
+
+
+***********************************************************************
+Frecuencias
+
+si suponemos un dt = 1 y un numero de puntos N = 10, tenemos:
+
+	t = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]
+
+	df = 1/(N*dt)     =  0.1
+	fmax = 1/(2*dt)   =  0.5
+	fmin = df - fmax  = -0.4
+
+y las frecuencias correspondientes quedan como:
+
+	f = [0, 0.1, 0.2, 0.3, 0.4, 0.5, -0.4 -0.3, -0.2, -0.1]
+
+Este vector se construye como se indica en la funcion "frecuencias"
